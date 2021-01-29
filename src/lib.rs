@@ -40,9 +40,10 @@ impl<T: HasTtl> TtlCache<T> {
     /// otherwise calls `update` to refresh it. Only [`Ok`] results are cached.
     pub async fn try_get_or_update<Fut: TryFuture<Ok = T>>(
         &mut self,
+        valid_until_at_least: SystemTime,
         update: impl FnOnce() -> Fut,
     ) -> Result<&mut T, Fut::Error> {
-        self.clear_if_expired(SystemTime::now());
+        self.clear_if_expired(valid_until_at_least);
         Ok(match self {
             TtlCache::Empty => self.insert(update().into_future().await?),
             TtlCache::Filled { value } => value,
