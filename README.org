@@ -1,0 +1,5 @@
+#+TITLE: ttl-cache
+
+Keeps a single value cached for a duration, after which it is renewed.
+
+Useful for maintaining authentication keys that expire eventually and need to be renewed.
