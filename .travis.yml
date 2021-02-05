@@ -1,0 +1,10 @@
+language: rust
+dist: bionic
+rust:
+- stable
+cache: cargo
+before_install:
+- rustup component add clippy
+script:
+- cargo clippy
+- cargo test
